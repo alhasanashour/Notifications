@@ -29,7 +29,7 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 	private String mFeeds[] = new String[3];
 	private MainActivity mParentActivity;
 	private Context mApplicationContext;
-
+    private long[] mVibratePattern = { 0, 200, 200, 300 };
 	// Change this variable to false if you do not have a stable network
 	// connection
 	private static final boolean HAS_NETWORK_CONNECTION = true;
@@ -163,16 +163,16 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 
 						log("Entered result receiver's onReceive() method");
 
-						// TODO: Check whether the result code is RESULT_OK
+						// : Check whether the result code is RESULT_OK
+                        int resultCode = getResultCode();
+						if (resultCode == Activity.RESULT_OK) {
 
-						if (/*change this*/ true) {
-
-							// TODO:  If so, create a PendingIntent using the
+							// :  If so, create a PendingIntent using the
 							// restartMainActivityIntent and set its flags
 							// to FLAG_UPDATE_CURRENT
 							
-							final PendingIntent pendingIntent = null;
-							
+							final PendingIntent pendingIntent = PendingIntent.getActivity(mApplicationContext,
+                                    resultCode, restartMainActivtyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
 							// Uses R.layout.custom_notification for the
@@ -183,25 +183,33 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 									mApplicationContext.getPackageName(),
 									R.layout.custom_notification);
 
-							// TODO: Set the notification View's text to
+							// : Set the notification View's text to
 							// reflect whether or the download completed
 							// successfully
-
+                            mContentView.setTextViewText(R.id.text, "download completed successfully");
 
 							
-							// TODO: Use the Notification.Builder class to
+							// : Use the Notification.Builder class to
 							// create the Notification. You will have to set
 							// several pieces of information. You can use
 							// android.R.drawable.stat_sys_warning
 							// for the small icon. You should also setAutoCancel(true). 
 
-							Notification.Builder notificationBuilder = null;
+							Notification.Builder notificationBuilder = new Notification.Builder(mApplicationContext)
+                                    .setTicker("Download completed")
+                                    .setSmallIcon(android.R.drawable.stat_sys_warning)
+                                    .setAutoCancel(true)
+                                    .setContentIntent(pendingIntent)
+                                    .setVibrate(mVibratePattern)
+                                    .setContent(mContentView);
 
-							// TODO: Send the notification
 
-							
-							
-							log("Notification Area Notification sent");
+							// : Send the notification
+
+                            NotificationManager notificationManager;
+                            notificationManager = (NotificationManager) mApplicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
+                            notificationManager.notify(MY_NOTIFICATION_ID, notificationBuilder.build());
+                            log("Notification Area Notification sent");
 						}
 					}
 				}, 
