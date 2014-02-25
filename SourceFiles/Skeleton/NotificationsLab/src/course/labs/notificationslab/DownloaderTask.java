@@ -165,7 +165,7 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
 
 						// : Check whether the result code is RESULT_OK
                         int resultCode = getResultCode();
-						if (resultCode == Activity.RESULT_OK) {
+						if (resultCode != Activity.RESULT_OK) {
 
 							// :  If so, create a PendingIntent using the
 							// restartMainActivityIntent and set its flags
