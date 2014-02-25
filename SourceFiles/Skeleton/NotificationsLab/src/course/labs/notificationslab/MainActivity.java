@@ -54,9 +54,10 @@ public class MainActivity extends Activity implements SelectionListener {
 		addFriendsFragment();
 
 		// The feed is fresh if it was downloaded less than 2 minutes ago
+        String path =getFileStreamPath(TWEET_FILENAME).getPath();
 		mIsFresh = (System.currentTimeMillis() - getFileStreamPath(
 				TWEET_FILENAME).lastModified()) < TWO_MIN;
-
+        //mIsFresh=false;
 		ensureData();
 
 	}
@@ -91,7 +92,7 @@ public class MainActivity extends Activity implements SelectionListener {
 			//
 			// Start new AsyncTask to download Tweets from network
 			DownloaderTask task = new DownloaderTask(this);
-            task.execute();
+            task.execute(URL_LGAGA, URL_RBLACK, URL_TSWIFT);
 
 
 			
