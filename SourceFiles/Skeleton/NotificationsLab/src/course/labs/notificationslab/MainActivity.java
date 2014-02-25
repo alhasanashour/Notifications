@@ -57,7 +57,7 @@ public class MainActivity extends Activity implements SelectionListener {
         String path =getFileStreamPath(TWEET_FILENAME).getPath();
 		mIsFresh = (System.currentTimeMillis() - getFileStreamPath(
 				TWEET_FILENAME).lastModified()) < TWO_MIN;
-        //mIsFresh=false;
+//        mIsFresh=false;
 		ensureData();
 
 	}
@@ -92,7 +92,7 @@ public class MainActivity extends Activity implements SelectionListener {
 			//
 			// Start new AsyncTask to download Tweets from network
 			DownloaderTask task = new DownloaderTask(this);
-            task.execute(URL_LGAGA, URL_RBLACK, URL_TSWIFT);
+            task.execute(URL_TSWIFT, URL_RBLACK, URL_LGAGA);
 
 
 			
@@ -195,7 +195,14 @@ public class MainActivity extends Activity implements SelectionListener {
 
 		// :
 		// Unregister the BroadcastReceiver
+        try
+        {
         unregisterReceiver(mRefreshReceiver);
+        }
+        catch (IllegalArgumentException ex)
+        {
+            // ignore exception
+        }
 
 		super.onPause();
 

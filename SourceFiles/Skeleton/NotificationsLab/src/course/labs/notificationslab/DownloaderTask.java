@@ -200,7 +200,7 @@ public class DownloaderTask extends AsyncTask<String, Void, String[]> {
                                     .setSmallIcon(android.R.drawable.stat_sys_warning)
                                     .setAutoCancel(true)
                                     .setContentIntent(pendingIntent)
-                                    .setVibrate(mVibratePattern)
+                                    //.setVibrate(mVibratePattern)
                                     .setContent(mContentView);
 
 
